@@ -65,6 +65,16 @@ dependencies {
     // Feature module support for Fragments
     implementation(libs.androidx.navigation.dynamic.features.fragment)
 
+//    RETROFIT
+    implementation(libs.retrofit)
+//    GSON
+    implementation(libs.gson)
+    implementation(libs.converter.gson)
+//    retrofit logging interceptor
+    implementation(libs.logging.interceptor)
+// convert url to image (COIL)
+    implementation(libs.coil)
+    implementation(libs.coil.compose)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
