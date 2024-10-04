@@ -13,6 +13,9 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
@@ -26,9 +29,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.newsapp.home.ApplicationTapBar
 import com.example.newsapp.home.CategoryDataList
 import com.example.newsapp.home.home_page.CardHomeComponent
 import com.example.newsapp.news_details.NewsMainDetailsScreen
@@ -40,9 +47,27 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
+            val navController = rememberNavController().currentBackStackEntryAsState()
+            var title = remember {
+                mutableStateOf("News App")
+            }
+            LaunchedEffect(key1 = navController.value?.destination?.route) {
+                println("current route ${navController.value?.destination?.route}")
+                title.value = when(navController.value?.destination?.route){
+                    "homePage" -> "News App"
+                    else -> ""
+                }
+                
+            }
             NewsAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    topBar = {
+                        ApplicationTapBar(title = title.value, modifier = Modifier)
+                    }
+                ) { innerPadding ->
                     MainScreensSet(modifier = Modifier.padding(innerPadding))
                 }
             }
@@ -50,18 +75,25 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
+
 @Composable
 fun MainScreensSet(modifier: Modifier){
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "homePage") {
         composable("homePage") {
-            HomePage(navController, modifier)
+            HomePage(navController, modifier = modifier)
         }
-        composable("sourcesPage") {
-            SourcesMainScreen(navController, modifier)
+        composable(
+            route = "sourcesPage/{newsCategory}",
+            arguments = listOf(navArgument("newsCategory"){
+                type = NavType.StringType
+            })
+        ) {
+            SourcesMainScreen(navController,it.arguments?.getString("newsCategory"), modifier = modifier)
         }
         composable("newsDetails") {
-            NewsMainDetailsScreen(navController, modifier)
+            NewsMainDetailsScreen(navController, modifier= modifier)
         }
     }
 }
