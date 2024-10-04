@@ -1,5 +1,6 @@
 package com.example.newsapp.home.home_page
 
+import android.os.Bundle
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +22,7 @@ import com.example.newsapp.home.Category
 import com.example.newsapp.ui.theme.Brown_Card
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 
 @Composable
@@ -57,7 +59,7 @@ fun CardHomeComponent(cardData : Category, navController: NavController){
 
 fun navigateToNewsSourceScreen(categoryTitle : String, navController: NavController){
     println("new category title $categoryTitle")
-    navController.navigate("sourcesPage")
+    navController.navigate("sourcesPage/${categoryTitle}")
 }
 
 @Preview(showBackground = true)
