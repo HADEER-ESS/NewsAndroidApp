@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -75,6 +76,9 @@ dependencies {
 // convert url to image (COIL)
     implementation(libs.coil)
     implementation(libs.coil.compose)
+
+    // Jetpack Compose integration
+    implementation(libs.androidx.navigation.compose.v282)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
