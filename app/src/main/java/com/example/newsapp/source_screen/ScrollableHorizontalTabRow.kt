@@ -17,13 +17,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.newsapp.api.ApiManager
 import com.example.newsapp.api.model.ArticlesItem
 import com.example.newsapp.api.model.SourceCustome
+import com.example.newsapp.news_details.AricleDetailsViewModel
 import com.example.newsapp.ui.theme.Green_Card
 import com.example.newsapp.ui.theme.White_Main
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +34,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @Composable
-fun CreateScrollableHorizontalTabRow(sourceData : List<SourceCustome>){
+fun CreateScrollableHorizontalTabRow(sourceData : List<SourceCustome>, navController : NavController, viewModel: AricleDetailsViewModel){
     var selectedIndex by remember {
         mutableIntStateOf(0)
     }
@@ -71,7 +74,7 @@ fun CreateScrollableHorizontalTabRow(sourceData : List<SourceCustome>){
             }
         }
 
-        NewsCardView(newsData)
+        NewsCardView(newsData, navController,viewModel)
     }
 
 }
@@ -108,5 +111,7 @@ fun RowSourceItemPreview(){
         SourceCustome("bbc-news", "BBC News"),
         SourceCustome("bbc-sport", "BBC Sport"),
     )
-    CreateScrollableHorizontalTabRow(sourceData = data)
+    val navController = NavController(LocalContext.current)
+    val view = AricleDetailsViewModel()
+    CreateScrollableHorizontalTabRow(sourceData = data, navController, view)
 }

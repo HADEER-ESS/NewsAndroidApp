@@ -24,19 +24,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.newsapp.R
 import com.example.newsapp.api.ApiManager
 import com.example.newsapp.api.model.ArticlesItem
 import com.example.newsapp.api.model.CategorySourceResponse
 import com.example.newsapp.api.model.NewsSourceByCategoryResponse
 import com.example.newsapp.api.model.NewsSourceResponse
 import com.example.newsapp.api.model.SourceCustome
+import com.example.newsapp.news_details.AricleDetailsViewModel
 import com.example.newsapp.ui.theme.Green_Card
 import com.example.newsapp.ui.theme.NewsAppTheme
 import com.example.newsapp.ui.theme.White_Main
@@ -48,7 +55,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 @Composable
-fun SourcesMainScreen(navController: NavController, categoryType:String? , modifier: Modifier = Modifier){
+fun SourcesMainScreen(navController: NavController, categoryType:String?, viewModel:AricleDetailsViewModel , modifier: Modifier = Modifier){
     var newsSourceName by remember {
         mutableStateOf<List<SourceCustome>>(emptyList())
     }
@@ -75,9 +82,13 @@ fun SourcesMainScreen(navController: NavController, categoryType:String? , modif
             })
     }
     Box(
-        modifier.fillMaxSize().padding(0.dp, 20.dp)
+        modifier = Modifier
+            .paint(painterResource(id = R.drawable.app_pattern), contentScale = ContentScale.Crop)
+            .fillMaxSize()
+            .fillMaxSize()
+            .padding(0.dp, 20.dp)
     ){
-        CreateScrollableHorizontalTabRow(newsSourceName)
+        CreateScrollableHorizontalTabRow(newsSourceName, navController, viewModel)
 
     }
 
@@ -87,5 +98,6 @@ fun SourcesMainScreen(navController: NavController, categoryType:String? , modif
 @Composable
 fun SourcesMainScreenPreview(){
     val navController = NavController(context = LocalContext.current)
-    SourcesMainScreen(navController ,"sport", modifier = Modifier.fillMaxSize())
+    val data = AricleDetailsViewModel()
+    SourcesMainScreen(navController ,"sport",data, modifier = Modifier.fillMaxSize())
 }

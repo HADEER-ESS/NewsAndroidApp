@@ -1,5 +1,6 @@
 package com.example.newsapp.source_screen
 
+import android.os.Bundle
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -16,18 +17,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.newsapp.api.model.ArticlesItem
+import com.example.newsapp.news_details.AricleDetailsViewModel
 import com.example.newsapp.ui.theme.Black_Main
 import com.example.newsapp.ui.theme.Gray_Text_Main
 import com.example.newsapp.ui.theme.White_Main
 
 @Composable
-fun NewsCardView(data : List<ArticlesItem?>){
+fun NewsCardView(data : List<ArticlesItem?>, nav: NavController, viewModel: AricleDetailsViewModel){
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -41,6 +46,7 @@ fun NewsCardView(data : List<ArticlesItem?>){
                 colors = CardDefaults.cardColors(
                     containerColor = White_Main
                 ),
+                onClick = { navigateToDetailsScreen(data[it]!!, nav, viewModel)},
                 shape = RectangleShape,
             ){
                 NewsCardItem(data[it]!!)
@@ -49,8 +55,15 @@ fun NewsCardView(data : List<ArticlesItem?>){
     }
 }
 
+fun navigateToDetailsScreen(data : ArticlesItem, navController: NavController, viewModel: AricleDetailsViewModel ){
+    println("render article Data $data")
+    viewModel.setArticle(data)
+    navController.navigate("newsDetails")
+}
+
 @Composable
 fun NewsCardItem(article : ArticlesItem){
+    println("article render data $article")
     AsyncImage(
         model = article.urlToImage!!,
         contentDescription = "News Content Image",
@@ -60,7 +73,7 @@ fun NewsCardItem(article : ArticlesItem){
             .padding(4.dp)
     )
         Text(
-            text = article.author!!,
+            text = if(article.author.isNullOrEmpty()) "UnKnown" else article.author!!,
             fontSize = 10.sp,
             color = Gray_Text_Main,
             textAlign = TextAlign.Start,
@@ -110,5 +123,8 @@ fun NewsCardItemPreview(){
             author = "BBC News"
         )
     )
-    NewsCardView(data = data)
+
+    val navVontroller = NavController(LocalContext.current)
+    val model = AricleDetailsViewModel()
+    NewsCardView(data = data, navVontroller, model)
 }

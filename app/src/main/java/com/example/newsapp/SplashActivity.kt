@@ -84,3 +84,14 @@ fun MainSplashScreenPreview() {
         MainSplashScreen()
     }
 }
+/*
+//TODO()
+1- Drawer item
+2- Drawer functionality
+3- Setting screen
+4- View News Details                            (Done)
+5- Navigate to full article news                (Done)
+6- Get news data when enter page
+7- Search screen
+
+ */
