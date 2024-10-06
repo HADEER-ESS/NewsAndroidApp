@@ -28,6 +28,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -35,9 +37,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.navigation.toRoute
+import com.example.newsapp.api.model.ArticlesItem
 import com.example.newsapp.home.ApplicationTapBar
 import com.example.newsapp.home.CategoryDataList
 import com.example.newsapp.home.home_page.CardHomeComponent
+import com.example.newsapp.news_details.AricleDetailsViewModel
 import com.example.newsapp.news_details.NewsMainDetailsScreen
 import com.example.newsapp.source_screen.SourcesMainScreen
 import com.example.newsapp.ui.theme.Gray_Text_Main
@@ -68,7 +73,7 @@ class MainActivity : ComponentActivity() {
                         ApplicationTapBar(title = title.value, modifier = Modifier)
                     }
                 ) { innerPadding ->
-                    MainScreensSet(modifier = Modifier.padding(innerPadding))
+                    MainScreensSet(modifier = Modifier.padding(innerPadding).fillMaxSize())
                 }
             }
         }
@@ -80,7 +85,12 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreensSet(modifier: Modifier){
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "homePage") {
+    val articleData : AricleDetailsViewModel = viewModel()
+    NavHost(
+        modifier = modifier,
+        navController = navController,
+        startDestination = "homePage"
+    ) {
         composable("homePage") {
             HomePage(navController, modifier = modifier)
         }
@@ -90,10 +100,11 @@ fun MainScreensSet(modifier: Modifier){
                 type = NavType.StringType
             })
         ) {
-            SourcesMainScreen(navController,it.arguments?.getString("newsCategory"), modifier = modifier)
+            SourcesMainScreen(navController,it.arguments?.getString("newsCategory"), articleData, modifier = modifier)
         }
-        composable("newsDetails") {
-            NewsMainDetailsScreen(navController, modifier= modifier)
+        composable( "newsDetails")
+        {
+            NewsMainDetailsScreen(navController,articleData, modifier= modifier)
         }
     }
 }
@@ -102,7 +113,7 @@ fun MainScreensSet(modifier: Modifier){
 fun HomePage( navController:NavController, modifier: Modifier = Modifier) {
     val categoryCardData = CategoryDataList.categoryData
     Column(
-        modifier = modifier
+        modifier = Modifier
             .paint(painterResource(id = R.drawable.app_pattern), contentScale = ContentScale.Crop)
             .fillMaxSize()
             .padding(0.dp),
