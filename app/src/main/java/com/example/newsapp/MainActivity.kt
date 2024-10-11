@@ -10,12 +10,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
@@ -31,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -39,11 +44,14 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.toRoute
 import com.example.newsapp.api.model.ArticlesItem
+import com.example.newsapp.constants.Routes
+import com.example.newsapp.drawer.DrawerItemSheet
 import com.example.newsapp.home.ApplicationTapBar
 import com.example.newsapp.home.CategoryDataList
 import com.example.newsapp.home.home_page.CardHomeComponent
 import com.example.newsapp.news_details.AricleDetailsViewModel
 import com.example.newsapp.news_details.NewsMainDetailsScreen
+import com.example.newsapp.setting.SettingsScreenView
 import com.example.newsapp.source_screen.SourcesMainScreen
 import com.example.newsapp.ui.theme.Gray_Text_Main
 import com.example.newsapp.ui.theme.NewsAppTheme
@@ -54,27 +62,37 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            val navController = rememberNavController().currentBackStackEntryAsState()
+            val navController = rememberNavController()
+            val scope = rememberCoroutineScope()
+            val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
             var title = remember {
                 mutableStateOf("News App")
             }
-            LaunchedEffect(key1 = navController.value?.destination?.route) {
-                println("current route ${navController.value?.destination?.route}")
-                title.value = when(navController.value?.destination?.route){
-                    "homePage" -> "News App"
-                    else -> ""
-                }
+            LaunchedEffect(key1 = navController.currentBackStackEntryAsState().value?.destination?.route) {
+//                title.value = when(navController.currentBackStackEntryAsState().value?.destination?.route){
+//                    "homePage" -> "News App"
+//                    else -> ""
+//                }
                 
             }
             NewsAppTheme {
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    topBar = {
-                        ApplicationTapBar(title = title.value, modifier = Modifier)
+                ModalNavigationDrawer(
+                    drawerState = drawerState,
+                    drawerContent = { DrawerItemSheet(navController, drawerState, scope) }
+                ) {
+                    Scaffold(
+                        modifier = Modifier.fillMaxSize(),
+                        topBar = {
+                            ApplicationTapBar(title = title.value,drawerState, modifier = Modifier)
+                        }
+                    ) { innerPadding ->
+                        MainScreensSet(navController,
+                            modifier = Modifier
+                                .padding(innerPadding)
+                                .fillMaxSize())
                     }
-                ) { innerPadding ->
-                    MainScreensSet(modifier = Modifier.padding(innerPadding).fillMaxSize())
                 }
+
             }
         }
     }
@@ -83,28 +101,31 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun MainScreensSet(modifier: Modifier){
-    val navController = rememberNavController()
+fun MainScreensSet(navController: NavHostController, modifier: Modifier){
     val articleData : AricleDetailsViewModel = viewModel()
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = "homePage"
+        startDestination = Routes().HOME_ROUTES
     ) {
-        composable("homePage") {
+        composable(Routes().HOME_ROUTES) {
             HomePage(navController, modifier = modifier)
         }
         composable(
-            route = "sourcesPage/{newsCategory}",
+            route = "${Routes().SOURCES_ROUTES}/{newsCategory}",
             arguments = listOf(navArgument("newsCategory"){
                 type = NavType.StringType
             })
         ) {
             SourcesMainScreen(navController,it.arguments?.getString("newsCategory"), articleData, modifier = modifier)
         }
-        composable( "newsDetails")
+        composable(Routes().DETAILS_ROUTES)
         {
             NewsMainDetailsScreen(navController,articleData, modifier= modifier)
+        }
+        composable(Routes().SETTING_ROUTES)
+        {
+            SettingsScreenView(navController, modifier = modifier)
         }
     }
 }
