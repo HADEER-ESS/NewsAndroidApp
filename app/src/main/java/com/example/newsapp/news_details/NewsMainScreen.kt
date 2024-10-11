@@ -41,10 +41,13 @@ import com.example.newsapp.ui.theme.White_Main
 
 @Composable
 fun NewsMainDetailsScreen(navController: NavController, viewModel: AricleDetailsViewModel, modifier: Modifier){
-    val data = viewModel.articleInfo
-//    Box (modifier = modifier.fillMaxSize()){
+    val data = viewModel.articleInfo!!
+    Box (
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ){
         ArticleDetailsCard(data = data)
-//    }
+    }
 
 }
 
@@ -54,7 +57,6 @@ fun ArticleDetailsCard(data:ArticlesItem?){
     LazyColumn(
         modifier = Modifier
             .paint(painterResource(id = R.drawable.app_pattern), contentScale = ContentScale.Crop)
-            .fillMaxSize()
     ){
         item {
             Card(
