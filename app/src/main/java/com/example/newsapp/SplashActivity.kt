@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.os.LocaleListCompat
 import androidx.navigation.compose.rememberNavController
 import com.example.newsapp.ui.theme.NewsAppTheme
 import kotlinx.coroutines.delay
@@ -59,6 +61,7 @@ private fun navigateToMain(context: ComponentActivity) {
 
 @Composable
 fun MainSplashScreen(modifier: Modifier = Modifier) {
+    handleAppLocalization()
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -75,6 +78,14 @@ fun MainSplashScreen(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxHeight(1f)
         )
     }
+}
+
+fun handleAppLocalization(){
+    println("application current language ${AppCompatDelegate.getApplicationLocales()}")
+    val currentLanguage = AppCompatDelegate.getApplicationLocales()[0].toString()
+    println("application current language is $currentLanguage")
+    val localList = LocaleListCompat.forLanguageTags(currentLanguage)
+    AppCompatDelegate.setApplicationLocales(localList)
 }
 
 @Preview(showBackground = true, showSystemUi = true)

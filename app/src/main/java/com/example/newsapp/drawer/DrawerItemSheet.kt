@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -74,7 +75,7 @@ fun DrawerItemSheet(navController: NavController, drawerState : DrawerState, sco
                         contentDescription = "Category Icon"
                     )
                     Text(
-                        text = "Categories",
+                        text = stringResource(id = R.string.drawer_categories),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = Black_Main,
@@ -118,7 +119,7 @@ fun DrawerItemSheet(navController: NavController, drawerState : DrawerState, sco
                         contentDescription = "Setting Icon"
                     )
                     Text(
-                        text = "Settings",
+                        text = stringResource(id = R.string.drawer_settings),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = Black_Main,
