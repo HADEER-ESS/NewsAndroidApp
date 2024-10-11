@@ -87,7 +87,7 @@ fun MainSplashScreenPreview() {
 /*
 //TODO()
 1- Drawer item                                  (Done)
-1*- Tab Bar screen title
+1*- Tab Bar screen title                        (Done)
 2- Drawer functionality                         (Done)
 3- Setting screen
 4- View News Details                            (Done)

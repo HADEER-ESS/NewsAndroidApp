@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.newsapp.R
-import com.example.newsapp.constants.Routes
+import com.example.newsapp.constants.ApplicationTitle
 import com.example.newsapp.ui.theme.Black_Main
 import com.example.newsapp.ui.theme.Green_Card
 import com.example.newsapp.ui.theme.White_Main
@@ -42,7 +42,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun DrawerItemSheet(navController: NavController, drawerState : DrawerState, scope : CoroutineScope){
     var selectedItem by remember {
-        mutableStateOf(Routes().HOME_ROUTES)
+        mutableStateOf(ApplicationTitle.HOME_TITLE)
     }
     ModalDrawerSheet {
         Box(
@@ -82,11 +82,11 @@ fun DrawerItemSheet(navController: NavController, drawerState : DrawerState, sco
                     )
             }
                     },
-            selected = selectedItem == Routes().HOME_ROUTES,
+            selected = selectedItem == ApplicationTitle.HOME_TITLE,
             onClick = {
-                selectedItem = Routes().HOME_ROUTES
-                navController.navigate(Routes().HOME_ROUTES){
-                    popUpTo(Routes().HOME_ROUTES){
+                selectedItem = ApplicationTitle.HOME_TITLE
+                navController.navigate(ApplicationTitle.HOME_TITLE){
+                    popUpTo(ApplicationTitle.HOME_TITLE){
                         inclusive = true
                     }
                     launchSingleTop = true
@@ -99,7 +99,7 @@ fun DrawerItemSheet(navController: NavController, drawerState : DrawerState, sco
             modifier = Modifier
                 .padding(6.dp)
                 .background(
-                    if (selectedItem == Routes().HOME_ROUTES) Green_Card else White_Main
+                    if (selectedItem == ApplicationTitle.HOME_TITLE) Green_Card else White_Main
                 ),
             colors = NavigationDrawerItemDefaults.colors(
                 selectedContainerColor = Green_Card,
@@ -126,10 +126,10 @@ fun DrawerItemSheet(navController: NavController, drawerState : DrawerState, sco
                     )
                 }
             },
-            selected = selectedItem == Routes().SETTING_ROUTES,
+            selected = selectedItem == ApplicationTitle.SETTING_ROUTES,
             onClick = {
-                selectedItem = Routes().SETTING_ROUTES
-                navController.navigate(Routes().SETTING_ROUTES){
+                selectedItem = ApplicationTitle.SETTING_ROUTES
+                navController.navigate(ApplicationTitle.SETTING_ROUTES){
                     launchSingleTop = true
                     restoreState = true
                 }
@@ -140,7 +140,7 @@ fun DrawerItemSheet(navController: NavController, drawerState : DrawerState, sco
             modifier = Modifier
                 .padding(6.dp)
                 .background(
-                    if (selectedItem == Routes().SETTING_ROUTES) Green_Card else White_Main
+                    if (selectedItem == ApplicationTitle.SETTING_ROUTES) Green_Card else White_Main
                 ),
             colors = NavigationDrawerItemDefaults.colors(
                 selectedContainerColor = Green_Card,
