@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -44,7 +45,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.toRoute
 import com.example.newsapp.api.model.ArticlesItem
-import com.example.newsapp.constants.Routes
+import com.example.newsapp.constants.ApplicationTitle
 import com.example.newsapp.drawer.DrawerItemSheet
 import com.example.newsapp.home.ApplicationTapBar
 import com.example.newsapp.home.CategoryDataList
@@ -63,10 +64,20 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
+            val currentBackstackEntry by navController.currentBackStackEntryAsState()
+            val currentDestination = currentBackstackEntry?.destination
+            val newsCategory = currentBackstackEntry?.arguments?.getString("newsCategory")
+
+
             val scope = rememberCoroutineScope()
             val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-            var title = remember {
-                mutableStateOf("News App")
+            println("current distination is ${currentDestination?.route}")
+            val title = when(currentDestination?.route){
+                ApplicationTitle.HOME_TITLE -> "News App"
+                "${ApplicationTitle.SOURCES_ROUTES}/{newsCategory}" -> newsCategory ?: "Category"
+                ApplicationTitle.DETAILS_ROUTES -> "News Title"
+                ApplicationTitle.SETTING_ROUTES -> "Settings"
+                else -> "News App"
             }
             LaunchedEffect(key1 = navController.currentBackStackEntryAsState().value?.destination?.route) {
 //                title.value = when(navController.currentBackStackEntryAsState().value?.destination?.route){
@@ -83,7 +94,7 @@ class MainActivity : ComponentActivity() {
                     Scaffold(
                         modifier = Modifier.fillMaxSize(),
                         topBar = {
-                            ApplicationTapBar(title = title.value,drawerState, modifier = Modifier)
+                            ApplicationTapBar(title = title,drawerState, modifier = Modifier)
                         }
                     ) { innerPadding ->
                         MainScreensSet(navController,
@@ -106,24 +117,24 @@ fun MainScreensSet(navController: NavHostController, modifier: Modifier){
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = Routes().HOME_ROUTES
+        startDestination = ApplicationTitle.HOME_TITLE
     ) {
-        composable(Routes().HOME_ROUTES) {
+        composable(ApplicationTitle.HOME_TITLE) {
             HomePage(navController, modifier = modifier)
         }
         composable(
-            route = "${Routes().SOURCES_ROUTES}/{newsCategory}",
+            route = "${ApplicationTitle.SOURCES_ROUTES}/{newsCategory}",
             arguments = listOf(navArgument("newsCategory"){
                 type = NavType.StringType
             })
         ) {
             SourcesMainScreen(navController,it.arguments?.getString("newsCategory"), articleData, modifier = modifier)
         }
-        composable(Routes().DETAILS_ROUTES)
+        composable(ApplicationTitle.DETAILS_ROUTES)
         {
             NewsMainDetailsScreen(navController,articleData, modifier= modifier)
         }
-        composable(Routes().SETTING_ROUTES)
+        composable(ApplicationTitle.SETTING_ROUTES)
         {
             SettingsScreenView(navController, modifier = modifier)
         }
