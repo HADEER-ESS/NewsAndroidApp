@@ -56,6 +56,7 @@ import com.example.newsapp.home.home_page.CardHomeComponent
 import com.example.newsapp.news_details.AricleDetailsViewModel
 import com.example.newsapp.news_details.NewsMainDetailsScreen
 import com.example.newsapp.search.SearchScreen
+import com.example.newsapp.search.SearchViewModel
 import com.example.newsapp.setting.SettingsScreenView
 import com.example.newsapp.source_screen.SourcesMainScreen
 import com.example.newsapp.ui.theme.Gray_Text_Main
@@ -71,6 +72,7 @@ class MainActivity : ComponentActivity() {
                 mutableStateOf(false)
             }
             val navController = rememberNavController()
+            val viewModel : SearchViewModel = viewModel()
             val currentBackstackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = currentBackstackEntry?.destination
             val newsCategory = currentBackstackEntry?.arguments?.getString("newsCategory")
@@ -95,10 +97,10 @@ class MainActivity : ComponentActivity() {
                     Scaffold(
                         modifier = Modifier.fillMaxSize(),
                         topBar = {
-                            ApplicationTapBar(title = title,drawerState,navController,isSearch, closeSearch = {isSearch=false}, openSearch={isSearch = true}, modifier = Modifier)
+                            ApplicationTapBar(title = title,drawerState,navController, viewModel,isSearch, closeSearch = {isSearch=false}, openSearch={isSearch = true}, modifier = Modifier)
                         }
                     ) { innerPadding ->
-                        MainScreensSet(navController,context,
+                        MainScreensSet(navController,context,viewModel,
                             modifier = Modifier
                                 .padding(innerPadding)
                                 .fillMaxSize())
@@ -113,7 +115,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun MainScreensSet(navController: NavHostController, context: Context, modifier: Modifier){
+fun MainScreensSet(navController: NavHostController, context: Context,viewModel: SearchViewModel, modifier: Modifier){
     val articleData : AricleDetailsViewModel = viewModel()
     NavHost(
         modifier = modifier,
@@ -141,7 +143,7 @@ fun MainScreensSet(navController: NavHostController, context: Context, modifier:
         }
         composable(ApplicationTitle.SEARCH_ROUTES)
         {
-            SearchScreen(navController, modifier = modifier)
+            SearchScreen(navController,viewModel, modifier = modifier)
         }
     }
 }

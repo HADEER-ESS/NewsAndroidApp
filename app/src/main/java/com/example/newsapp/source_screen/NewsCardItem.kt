@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.example.newsapp.R
 import com.example.newsapp.api.model.ArticlesItem
 import com.example.newsapp.news_details.AricleDetailsViewModel
 import com.example.newsapp.ui.theme.Black_Main
@@ -63,9 +65,9 @@ fun navigateToDetailsScreen(data : ArticlesItem, navController: NavController, v
 
 @Composable
 fun NewsCardItem(article : ArticlesItem){
-    println("article render data $article")
+    val randomUrlImage = "https://ichef.bbci.co.uk/news/1024/branded_news/49ee/live/eb559330-819c-11ef-b732-9d507d15282c.jpg"
     AsyncImage(
-        model = article.urlToImage!!,
+        model = article.urlToImage ?: randomUrlImage ,
         contentDescription = "News Content Image",
         filterQuality = FilterQuality.High,
         modifier = Modifier
@@ -73,21 +75,21 @@ fun NewsCardItem(article : ArticlesItem){
             .padding(4.dp)
     )
         Text(
-            text = if(article.author.isNullOrEmpty()) "UnKnown" else article.author!!,
+            text =  article.author ?: "Unknown",
             fontSize = 10.sp,
             color = Gray_Text_Main,
             textAlign = TextAlign.Start,
             modifier = Modifier.padding(4.dp,0.dp)
         )
         Text(
-            text = article.title!!,
+            text = article.title ?: "unknown",
             fontSize = 14.sp,
             color = Black_Main,
             textAlign = TextAlign.Start,
             modifier = Modifier.padding(4.dp)
         )
     Text(
-        text = article.publishedAt!!,
+        text = article.publishedAt?: "unknown",
         fontSize = 13.sp,
         color = Gray_Text_Main,
         textAlign = TextAlign.End,
