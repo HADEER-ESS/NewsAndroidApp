@@ -1,5 +1,7 @@
 package com.example.newsapp.home.home_page
 
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -25,10 +27,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
+import com.example.newsapp.constants.LanguageChangeHelper
+import java.util.Locale
 
 @Composable
 fun CardHomeComponent(cardData : Category, navController: NavController){
-    val category = stringResource(id = cardData.title)
+    val context = LocalContext.current
+    val category = context.getStringInLocale(cardData.title, Locale("en"))
         Card(
             colors = CardDefaults.cardColors(
                 containerColor = cardData.color
@@ -62,6 +67,13 @@ fun CardHomeComponent(cardData : Category, navController: NavController){
 fun navigateToNewsSourceScreen(categoryTitle : String, navController: NavController){
     println("new category title $categoryTitle")
     navController.navigate("sourcesPage/${categoryTitle}")
+}
+
+fun Context.getStringInLocale(id: Int, locale: Locale): String {
+    val config = Configuration(resources.configuration)
+    config.setLocale(locale)
+    val localizedContext = createConfigurationContext(config)
+    return localizedContext.resources.getString(id)
 }
 
 @Preview(showBackground = true)
