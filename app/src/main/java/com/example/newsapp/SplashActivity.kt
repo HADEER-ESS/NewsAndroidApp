@@ -105,7 +105,7 @@ fun MainSplashScreenPreview() {
 1- Drawer item                                  (Done)
 1*- Tab Bar screen title                        (Done)
 2- Drawer functionality                         (Done)
-3- Setting screen
+3- Setting screen                               (Done)
 4- View News Details                            (Done)
 5- Navigate to full article news                (Done)
 6- Get news data when enter page                (Done)
