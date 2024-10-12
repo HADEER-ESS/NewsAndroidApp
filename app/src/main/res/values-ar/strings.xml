@@ -18,6 +18,7 @@
     <string name="drawer_settings">الإعدادات</string>
 
     <string name="language_title">اللغة</string>
+    <string name="news_title">عنوان الأخبار</string>
 
     <string name="search_empty_state">لا توجد أخبار لهذه الكلمة المفتاحية</string>
 </resources>
