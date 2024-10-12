@@ -1,14 +1,10 @@
 package com.example.newsapp.search
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newsapp.api.ApiManager
 import com.example.newsapp.api.model.ArticlesItem
-import com.example.newsapp.api.model.SearchNewsResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,9 +21,7 @@ class SearchViewModel : ViewModel() {
     fun fetchNews(searchItem : String){
         viewModelScope.launch {
             val newsData = getNewsBySearchItem(searchItem)
-            println("data is get and set in temporary variable $newsData")
             _searchNewsData.value = newsData
-            println("set in permanent variable ${_searchNewsData.value}")
         }
     }
 
