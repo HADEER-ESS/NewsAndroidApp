@@ -109,5 +109,5 @@ fun MainSplashScreenPreview() {
 4- View News Details                            (Done)
 5- Navigate to full article news                (Done)
 6- Get news data when enter page                (Done)
-7- Search screen
+7- Search screen                                (Done)
  */

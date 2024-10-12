@@ -2,10 +2,12 @@ package com.example.newsapp.constants
 
 import android.app.LocaleManager
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Build
 import android.os.LocaleList
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
+import java.util.Locale
 
 class LanguageChangeHelper {
 
@@ -31,4 +33,6 @@ class LanguageChangeHelper {
              AppCompatDelegate.getApplicationLocales()[0]?.toLanguageTag()?.split("-")?.first() ?: "en"
         }
     }
+
+
 }

@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
@@ -54,6 +55,8 @@ import com.example.newsapp.home.CategoryDataList
 import com.example.newsapp.home.home_page.CardHomeComponent
 import com.example.newsapp.news_details.AricleDetailsViewModel
 import com.example.newsapp.news_details.NewsMainDetailsScreen
+import com.example.newsapp.search.SearchScreen
+import com.example.newsapp.search.SearchViewModel
 import com.example.newsapp.setting.SettingsScreenView
 import com.example.newsapp.source_screen.SourcesMainScreen
 import com.example.newsapp.ui.theme.Gray_Text_Main
@@ -65,7 +68,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
+            var isSearch by remember {
+                mutableStateOf(false)
+            }
             val navController = rememberNavController()
+            val viewModel : SearchViewModel = viewModel()
             val currentBackstackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = currentBackstackEntry?.destination
             val newsCategory = currentBackstackEntry?.arguments?.getString("newsCategory")
@@ -90,10 +97,10 @@ class MainActivity : ComponentActivity() {
                     Scaffold(
                         modifier = Modifier.fillMaxSize(),
                         topBar = {
-                            ApplicationTapBar(title = title,drawerState, modifier = Modifier)
+                            ApplicationTapBar(title = title,drawerState,navController, viewModel,isSearch, closeSearch = {isSearch=false}, openSearch={isSearch = true}, modifier = Modifier)
                         }
                     ) { innerPadding ->
-                        MainScreensSet(navController,context,
+                        MainScreensSet(navController,context,viewModel,
                             modifier = Modifier
                                 .padding(innerPadding)
                                 .fillMaxSize())
@@ -108,7 +115,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun MainScreensSet(navController: NavHostController, context: Context, modifier: Modifier){
+fun MainScreensSet(navController: NavHostController, context: Context,viewModel: SearchViewModel, modifier: Modifier){
     val articleData : AricleDetailsViewModel = viewModel()
     NavHost(
         modifier = modifier,
@@ -133,6 +140,10 @@ fun MainScreensSet(navController: NavHostController, context: Context, modifier:
         composable(ApplicationTitle.SETTING_ROUTES)
         {
             SettingsScreenView(navController,context, modifier = modifier)
+        }
+        composable(ApplicationTitle.SEARCH_ROUTES)
+        {
+            SearchScreen(navController,viewModel, modifier = modifier)
         }
     }
 }
