@@ -25,11 +25,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.newsapp.R
+import com.example.newsapp.news_details.AricleDetailsViewModel
 import com.example.newsapp.source_screen.NewsCardItem
+import com.example.newsapp.source_screen.NewsCardView
 import com.example.newsapp.ui.theme.Green_Card
 
 @Composable
-fun SearchScreen(navController: NavController,viewModel: SearchViewModel, modifier: Modifier = Modifier){
+fun SearchScreen(navController: NavController,viewModel: SearchViewModel,articalViewModle: AricleDetailsViewModel, modifier: Modifier = Modifier){
     val searchData by viewModel.searchNewsData.collectAsState()
     if (searchData.isEmpty()){
         Column (
@@ -54,12 +56,13 @@ fun SearchScreen(navController: NavController,viewModel: SearchViewModel, modifi
         }
     }
     else{
-        LazyColumn {
-            items(searchData){newsItem->
-                println("search data from search screen ${newsItem?.title}")
-                NewsCardItem(article = newsItem!!)
-            }
-        }
+        NewsCardView(searchData, navController, articalViewModle)
+//        LazyColumn {
+//            items(searchData){newsItem->
+//                println("search data from search screen ${newsItem?.title}")
+//                NewsCardItem(article = newsItem!!)
+//            }
+//        }
     }
 
 }
@@ -70,5 +73,6 @@ fun SearchScreen(navController: NavController,viewModel: SearchViewModel, modifi
 fun SearchScreenPreview(){
     val navController = NavController(LocalContext.current)
     val viewModel:SearchViewModel = viewModel()
-    SearchScreen(navController, viewModel)
+    val articalViewModle:AricleDetailsViewModel = viewModel()
+    SearchScreen(navController, viewModel, articalViewModle)
 }

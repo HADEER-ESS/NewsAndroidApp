@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,10 +57,13 @@ fun ApplicationTapBar(
     closeSearch : ()->Unit,
     openSearch : ()->Unit,
     modifier: Modifier){
+
+
     val scope = rememberCoroutineScope()
     var searchValue by remember {
         mutableStateOf("")
     }
+    val keyboard = LocalSoftwareKeyboardController.current
 
 
     CenterAlignedTopAppBar(
@@ -70,6 +74,7 @@ fun ApplicationTapBar(
                     onValueChange = {
                         searchValue = it
                     },
+                    maxLines = 1,
                     placeholder = { Text(
                         text = "Search Article",
                         color = Green_Card
@@ -84,6 +89,7 @@ fun ApplicationTapBar(
                                 .clickable {
                                     if (searchValue.isNotEmpty()) {
                                         viewModel.fetchNews(searchValue)
+                                        keyboard?.hide()
                                     }
                                 }
                         )
