@@ -83,9 +83,9 @@ class MainActivity : ComponentActivity() {
             println("current distination is ${currentDestination?.route}")
             val title = when(currentDestination?.route){
                 ApplicationTitle.HOME_TITLE -> "News App"
-                "${ApplicationTitle.SOURCES_ROUTES}/{newsCategory}" -> newsCategory ?: "Category"
-                ApplicationTitle.DETAILS_ROUTES -> "News Title"
-                ApplicationTitle.SETTING_ROUTES -> "Settings"
+                "${ApplicationTitle.SOURCES_ROUTES}/{newsCategory}" -> newsCategory ?: stringResource(id = R.string.drawer_categories)
+                ApplicationTitle.DETAILS_ROUTES -> stringResource(id = R.string.news_title)
+                ApplicationTitle.SETTING_ROUTES -> stringResource(id = R.string.drawer_settings)
                 else -> "News App"
             }
 
@@ -143,7 +143,7 @@ fun MainScreensSet(navController: NavHostController, context: Context,viewModel:
         }
         composable(ApplicationTitle.SEARCH_ROUTES)
         {
-            SearchScreen(navController,viewModel, modifier = modifier)
+            SearchScreen(navController,viewModel,articleData, modifier = modifier)
         }
     }
 }
