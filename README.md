@@ -49,3 +49,38 @@ Main Features
 <img src="https://github.com/user-attachments/assets/84aae206-3616-413b-874b-3e8b531ae45a" height="30px" width="30px"/>
 Screens
 </h3>
+
+<li>Splash screen</li>
+<img src="https://github.com/user-attachments/assets/883305aa-3cf1-40e7-8911-ca34e01618a3" height="250px" width="200px"/>
+<hr/>
+
+<li>Category Home Screen</li>
+<img src="https://github.com/user-attachments/assets/3940fee0-8d8c-4f4b-80d4-4a851d421462" height="250px" width="200px"/>
+<img src="https://github.com/user-attachments/assets/ac61bc85-344b-4489-b33e-8d1676ce3ce4" height="250px" width="200px"/>
+<hr/>
+
+<li>Sources Screen</li>
+<img src="https://github.com/user-attachments/assets/02100588-b67a-4c6c-9822-72b6452bada5" height="250px" width="200px"/>
+<img src="https://github.com/user-attachments/assets/ea8feb51-457c-4785-a121-869b3a1fb686" height="250px" width="200px"/>
+<img src="https://github.com/user-attachments/assets/1ac8ca11-56b0-4e1b-aa16-56bad39b2b58" height="250px" width="200px"/>
+<hr/>
+
+<li>Details screen</li>
+<img src="https://github.com/user-attachments/assets/f2792652-137d-43e7-9c53-7dfb95c5cb53" height="250px" width="200px"/>
+<hr/>
+
+<li>Search Empty State</li>
+<img src="ttps://github.com/user-attachments/assets/11e0092c-f626-4734-8f76-72f71f56c84f" height="250px" width="200px"/>
+<hr/>
+
+<li>Search Screen</li>
+<img src="https://github.com/user-attachments/assets/7687b399-5733-4122-984c-975db11c4740" height="250px" width="200px"/>
+<hr/>
+
+<li>Drawer</li>
+<img src="https://github.com/user-attachments/assets/b568a8e5-844d-4369-83e6-3cc24441a283" height="250px" width="200px"/>
+<hr/>
+
+<li>Setting Screen</li>
+<img src="https://github.com/user-attachments/assets/56d03191-2885-40a3-8f50-b08f06dc7c09" height="250px" width="200px"/>
+<hr/>
