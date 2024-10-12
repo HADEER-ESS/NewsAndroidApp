@@ -1,5 +1,6 @@
 package com.example.newsapp
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -68,7 +69,7 @@ class MainActivity : ComponentActivity() {
             val currentBackstackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = currentBackstackEntry?.destination
             val newsCategory = currentBackstackEntry?.arguments?.getString("newsCategory")
-
+            val context = applicationContext
 
             val scope = rememberCoroutineScope()
             val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -80,13 +81,7 @@ class MainActivity : ComponentActivity() {
                 ApplicationTitle.SETTING_ROUTES -> "Settings"
                 else -> "News App"
             }
-            LaunchedEffect(key1 = navController.currentBackStackEntryAsState().value?.destination?.route) {
-//                title.value = when(navController.currentBackStackEntryAsState().value?.destination?.route){
-//                    "homePage" -> "News App"
-//                    else -> ""
-//                }
-                
-            }
+
             NewsAppTheme {
                 ModalNavigationDrawer(
                     drawerState = drawerState,
@@ -98,7 +93,7 @@ class MainActivity : ComponentActivity() {
                             ApplicationTapBar(title = title,drawerState, modifier = Modifier)
                         }
                     ) { innerPadding ->
-                        MainScreensSet(navController,
+                        MainScreensSet(navController,context,
                             modifier = Modifier
                                 .padding(innerPadding)
                                 .fillMaxSize())
@@ -113,7 +108,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun MainScreensSet(navController: NavHostController, modifier: Modifier){
+fun MainScreensSet(navController: NavHostController, context: Context, modifier: Modifier){
     val articleData : AricleDetailsViewModel = viewModel()
     NavHost(
         modifier = modifier,
@@ -137,7 +132,7 @@ fun MainScreensSet(navController: NavHostController, modifier: Modifier){
         }
         composable(ApplicationTitle.SETTING_ROUTES)
         {
-            SettingsScreenView(navController, modifier = modifier)
+            SettingsScreenView(navController,context, modifier = modifier)
         }
     }
 }

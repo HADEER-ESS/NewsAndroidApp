@@ -1,5 +1,6 @@
 package com.example.newsapp.setting
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDialog
 import androidx.compose.foundation.background
@@ -31,6 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.os.LocaleListCompat
 import com.example.newsapp.R
+import com.example.newsapp.constants.Language
+import com.example.newsapp.constants.LanguageChangeHelper
 import com.example.newsapp.ui.theme.Black_Main
 import com.example.newsapp.ui.theme.Green_Card
 import com.example.newsapp.ui.theme.Red_card
@@ -38,10 +41,15 @@ import com.example.newsapp.ui.theme.White_Main
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDownLanguagePicker(languages : List<String>){
-    val local = AppCompatDelegate.getApplicationLocales()[0].toString()
-    val english = stringResource(id = R.string.english_lang)
-    var changedLanguage : LocaleListCompat
+fun DropDownLanguagePicker(languages : List<Language>, context: Context){
+    val langaugeChangeHelper by lazy {
+        LanguageChangeHelper()
+    }
+
+    val local = langaugeChangeHelper.getLanguageCode(context)
+    println("local is $local")
+//    val english = stringResource(id = R.string.english_lang)
+//    var changedLanguage : LocaleListCompat
 
     var isexpand by remember { mutableStateOf(false) }
     var selectedLang by remember {
@@ -51,7 +59,6 @@ fun DropDownLanguagePicker(languages : List<String>){
         else{
             mutableStateOf(languages[1])
         }
-
     }
 
     ExposedDropdownMenuBox(
@@ -63,7 +70,7 @@ fun DropDownLanguagePicker(languages : List<String>){
             .padding(15.dp, 10.dp)
     ) {
         TextField(
-            value = selectedLang,
+            value = selectedLang.name,
             onValueChange = {},
             readOnly = true,
             textStyle = TextStyle(color = Green_Card, fontSize = 14.sp, fontWeight = FontWeight.Bold),
@@ -87,21 +94,15 @@ fun DropDownLanguagePicker(languages : List<String>){
                 DropdownMenuItem(
                     text = {
                         Text(
-                            text = language,
+                            text = language.name,
                             fontSize = 12.sp,
                             color = if(language==selectedLang) Green_Card else Black_Main
                         )
                            },
                     onClick = {
-
-                        changedLanguage = if(language == english){
-                            LocaleListCompat.forLanguageTags("en")
-                        } else{
-                            LocaleListCompat.forLanguageTags("ar")
-                        }
                         selectedLang = language
                         isexpand = !isexpand
-                        AppCompatDelegate.setApplicationLocales(changedLanguage)
+                        langaugeChangeHelper.changeLanguage(context, language.code)
                               },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -114,10 +115,15 @@ fun DropDownLanguagePicker(languages : List<String>){
     }
 }
 
-@Preview(backgroundColor = 0xFFFFFFFF, device = "spec:parent=pixel_5", showSystemUi = true,
-    showBackground = true
-)
+
+
+@Preview
 @Composable
 fun DropDownLanguagePickerPreview(){
-    DropDownLanguagePicker(listOf("English", "Arabic"))
+    val allLanguages = listOf(
+        Language("en" , "English"),
+        Language("ar" , "Arabic")
+    )
+    val context = LocalContext.current
+    DropDownLanguagePicker(allLanguages, context)
 }

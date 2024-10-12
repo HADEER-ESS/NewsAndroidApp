@@ -1,5 +1,6 @@
 package com.example.newsapp.setting
 
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -22,13 +23,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.newsapp.R
+import com.example.newsapp.constants.Language
 import com.example.newsapp.ui.theme.Black_Main
 
 @Composable
-fun SettingsScreenView(navController: NavController, modifier: Modifier = Modifier){
+fun SettingsScreenView(navController: NavController, context: Context, modifier: Modifier = Modifier){
     val languages = listOf(
-        stringResource(id = R.string.english_lang),
-        stringResource(id = R.string.arabic_lang)
+        Language("en" , stringResource(id = R.string.english_lang)),
+        Language("ar" , stringResource(id = R.string.arabic_lang))
     )
     Column(
         modifier = Modifier
@@ -44,7 +46,7 @@ fun SettingsScreenView(navController: NavController, modifier: Modifier = Modifi
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(8.dp)
         )
-        DropDownLanguagePicker(languages)
+        DropDownLanguagePicker(languages, context)
     }
 
 }
@@ -55,5 +57,6 @@ fun SettingsScreenView(navController: NavController, modifier: Modifier = Modifi
 @Composable
 fun SettingsScreenViewPreview(){
     val navController = NavController(LocalContext.current)
-    SettingsScreenView(navController)
+    val context = LocalContext.current
+    SettingsScreenView(navController, context)
 }
