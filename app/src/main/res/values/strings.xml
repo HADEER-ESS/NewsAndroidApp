@@ -1,6 +1,20 @@
 <resources>
+    <string name="welcome_home_message">Pick your category\n of interest</string>
     <string name="app_name">News App</string>
     <string name="title_activity_splash">SplashActivity</string>
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="business_category">Bussiness</string>
+    <string name="entertainment_category">Entertainment</string>
+    <string name="general_category">General</string>
+    <string name="health_category">Health</string>
+    <string name="science_category">Science</string>
+    <string name="sport_category">Sports</string>
+    <string name="technology_category">Technology</string>
+
+    <string name="english_lang">English</string>
+    <string name="arabic_lang">Arabic</string>
+
+    <string name="drawer_categories">Categories</string>
+    <string name="drawer_settings">Settings</string>
+
+    <string name="language_title">Language</string>
 </resources>

@@ -22,16 +22,18 @@ import com.example.newsapp.home.Category
 import com.example.newsapp.ui.theme.Brown_Card
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 
 @Composable
 fun CardHomeComponent(cardData : Category, navController: NavController){
+    val category = stringResource(id = cardData.title)
         Card(
             colors = CardDefaults.cardColors(
                 containerColor = cardData.color
             ),
-            onClick = { navigateToNewsSourceScreen(cardData.title, navController) },
+            onClick = { navigateToNewsSourceScreen(category, navController) },
             shape = RoundedCornerShape(25.dp,25.dp,0.dp,25.dp),
             border = BorderStroke(1.dp, Color.White),
             modifier = Modifier.size(148.dp, 171.dp)
@@ -48,7 +50,7 @@ fun CardHomeComponent(cardData : Category, navController: NavController){
                     modifier = Modifier.size(132.dp,116.dp)
                 )
                 Text(
-                    text = cardData.title,
+                    text = stringResource(id = cardData.title),
                     color = Color.White,
                     textAlign = TextAlign.Center,
                 )
@@ -67,7 +69,7 @@ fun navigateToNewsSourceScreen(categoryTitle : String, navController: NavControl
 fun CardHomeComponentPreview(){
     val navController = NavController(context = LocalContext.current)
     CardHomeComponent(
-        Category(1, "Bussiness", 1, Brown_Card),
+        Category(1,1, 1, Brown_Card),
         navController
     )
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome_home_message">اختر فئة \nاهتمامك</string>
+    <string name="app_name">News App</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="business_category">الأعمال</string>
+    <string name="entertainment_category">ترفيه</string>
+    <string name="general_category">عام</string>
+    <string name="health_category">صحة</string>
+    <string name="science_category">علوم</string>
+    <string name="sport_category">رياضة</string>
+    <string name="technology_category">تكنولوجيا</string>
+
+    <string name="english_lang">إنجليزي</string>
+    <string name="arabic_lang">عربي</string>
+
+    <string name="drawer_categories">الفئات</string>
+    <string name="drawer_settings">الإعدادات</string>
+
+    <string name="language_title">اللغة</string>
+</resources>

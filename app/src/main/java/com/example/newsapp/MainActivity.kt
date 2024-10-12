@@ -1,5 +1,6 @@
 package com.example.newsapp
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -28,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -67,7 +69,7 @@ class MainActivity : ComponentActivity() {
             val currentBackstackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = currentBackstackEntry?.destination
             val newsCategory = currentBackstackEntry?.arguments?.getString("newsCategory")
-
+            val context = applicationContext
 
             val scope = rememberCoroutineScope()
             val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -79,13 +81,7 @@ class MainActivity : ComponentActivity() {
                 ApplicationTitle.SETTING_ROUTES -> "Settings"
                 else -> "News App"
             }
-            LaunchedEffect(key1 = navController.currentBackStackEntryAsState().value?.destination?.route) {
-//                title.value = when(navController.currentBackStackEntryAsState().value?.destination?.route){
-//                    "homePage" -> "News App"
-//                    else -> ""
-//                }
-                
-            }
+
             NewsAppTheme {
                 ModalNavigationDrawer(
                     drawerState = drawerState,
@@ -97,7 +93,7 @@ class MainActivity : ComponentActivity() {
                             ApplicationTapBar(title = title,drawerState, modifier = Modifier)
                         }
                     ) { innerPadding ->
-                        MainScreensSet(navController,
+                        MainScreensSet(navController,context,
                             modifier = Modifier
                                 .padding(innerPadding)
                                 .fillMaxSize())
@@ -112,7 +108,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun MainScreensSet(navController: NavHostController, modifier: Modifier){
+fun MainScreensSet(navController: NavHostController, context: Context, modifier: Modifier){
     val articleData : AricleDetailsViewModel = viewModel()
     NavHost(
         modifier = modifier,
@@ -136,7 +132,7 @@ fun MainScreensSet(navController: NavHostController, modifier: Modifier){
         }
         composable(ApplicationTitle.SETTING_ROUTES)
         {
-            SettingsScreenView(navController, modifier = modifier)
+            SettingsScreenView(navController,context, modifier = modifier)
         }
     }
 }
@@ -152,7 +148,7 @@ fun HomePage( navController:NavController, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center,
     ){
         Text(
-            text = "Pick your category\n of interest",
+            text = stringResource(id = R.string.welcome_home_message),
             color = Gray_Text_Main ,
             textAlign = TextAlign.Start,
             fontWeight = FontWeight.Bold,
