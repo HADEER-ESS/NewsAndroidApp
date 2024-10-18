@@ -79,8 +79,10 @@ Screens
 
 <li>Drawer</li>
 <img src="https://github.com/user-attachments/assets/b568a8e5-844d-4369-83e6-3cc24441a283" height="250px" width="200px"/>
+<img src="https://github.com/user-attachments/assets/55ae0587-bde8-4dd5-a5df-de6c849993d0" height="250px" width="200px"/>
 <hr/>
 
 <li>Setting Screen</li>
 <img src="https://github.com/user-attachments/assets/56d03191-2885-40a3-8f50-b08f06dc7c09" height="250px" width="200px"/>
+<img src="https://github.com/user-attachments/assets/1dc27241-660d-4ed6-a88c-2461bc961a77" height="250px" width="200px"/>
 <hr/>
