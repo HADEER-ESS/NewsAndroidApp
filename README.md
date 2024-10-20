@@ -29,7 +29,10 @@ Main Features
   <li>Select Source</li>
 </li>
 <li>
-  Navigate with data using ViewModel to display News details
+  Use ViewModel to fetch news data from an API using Retrofit and CoroutineScope
+</li>
+<li>
+  Pass data between screens using ViewModel to store fetched data, and pass to linked view
 </li>
 <li>
   Ability to open News Provided link by device-supported browser
