@@ -1,5 +1,6 @@
 [versions]
 agp = "8.5.0"
+appcompat = "1.7.0"
 coil = "2.7.0"
 converterGson = "2.11.0"
 gson = "2.11.0"
@@ -17,6 +18,7 @@ navigationComposeVersion = "2.8.2"
 retrofit = "2.11.0"
 
 [libraries]
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 androidx-navigation-compose-v282 = { module = "androidx.navigation:navigation-compose", version.ref = "navigationComposeVersion" }
